@@ -12,3 +12,11 @@
 body {
   @apply bg-bg text-accent font-mono selection:bg-fg selection:text-bg;
 }
+
+main {
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
