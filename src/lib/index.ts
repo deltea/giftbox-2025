@@ -1,34 +1,13 @@
-import type { Cell } from "./types";
+import { Grid } from "./grid";
 
-let grid: Cell[][] = [];
+let grid: Grid;
 const fontSize = 16;
 const padding = 24;
 const pixelRatio = window.devicePixelRatio || 2;
 
 let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
-let dims = { width: 0, height: 0 };
 let animationId: number;
-
-function drawRect(x: number, y: number, w: number, h: number, char: string = " ", color: string = "var(--color-fg)") {
-  for (let i = y; i < y + h; i++) {
-    for (let j = x; j < x + w; j++) {
-      if (i >= 0 && i < dims.height && j >= 0 && j < dims.width) {
-        grid[i][j] = { char, color };
-      }
-    }
-  }
-}
-
-function drawText(x: number, y: number, text: string, color: string = "var(--color-fg)", center: boolean = true) {
-  const startX = center ? x - Math.floor(text.length / 2) : x;
-  for (let i = 0; i < text.length; i++) {
-    const posX = startX + i;
-    if (y >= 0 && y < dims.height && posX >= 0 && posX < dims.width) {
-      grid[y][posX] = { char: text.charAt(i), color };
-    }
-  }
-}
 
 export function init() {
   canvas = document.createElement("canvas");
@@ -37,8 +16,10 @@ export function init() {
   container.appendChild(canvas);
   container.style.padding = `${padding}px`;
 
-  dims.width = Math.floor((window.innerWidth - padding * 2) / fontSize * 1.5);
-  dims.height = Math.floor((window.innerHeight - padding * 2) / fontSize);
+  const dims = {
+    width: Math.floor((window.innerWidth - padding * 2) / (fontSize / 1.5)),
+    height: Math.floor((window.innerHeight - padding * 2) / fontSize)
+  }
 
   const displayWidth = dims.width * (fontSize / 1.5);
   const displayHeight = dims.height * fontSize;
@@ -52,17 +33,17 @@ export function init() {
   ctx = canvas.getContext("2d")!;
   animationId = requestAnimationFrame(tick);
 
-  grid = Array(dims.height).fill(null).map(() => Array(dims.width).fill(" "));
+  grid = new Grid(dims.width, dims.height);
 }
 
 function update(currentTime: number) {
   const time = currentTime * 0.002;
   const chars = " .:-=+*#%@";
 
-  for (let y = 0; y < dims.height; y++) {
+  for (let y = 0; y < grid.height; y++) {
     const sinY = Math.sin(y * 0.3 + time);
 
-    for (let x = 0; x < dims.width; x++) {
+    for (let x = 0; x < grid.width; x++) {
       const sinX = Math.sin(x * 0.3 + time);
       const sinXY = Math.sin((x + y) * 0.2 + time);
 
@@ -70,25 +51,25 @@ function update(currentTime: number) {
       const normalized = (value + 3) / 6;
       const charIndex = Math.floor(normalized * 9);
 
-      grid[y][x] = { char: chars.charAt(charIndex), color: `hsl(135, 9%, ${normalized * 95 + 5}%)` };
+      grid.cells[y][x] = { char: chars.charAt(charIndex), color: `hsl(135, 9%, ${normalized * 95 + 5}%)` };
     }
   }
 
-  drawRect(
-    Math.floor(dims.width / 4),
-    Math.floor(dims.height / 4),
-    Math.floor(dims.width / 2),
-    Math.floor(dims.height / 2)
+  grid.drawRect(
+    Math.floor(grid.width / 4),
+    Math.floor(grid.height / 4),
+    Math.floor(grid.width / 2),
+    Math.floor(grid.height / 2)
   );
-  drawText(
-    Math.floor(dims.width / 2),
-    Math.floor(dims.height / 2) - 2,
+  grid.drawText(
+    Math.floor(grid.width / 2),
+    Math.floor(grid.height / 2) - 2,
     "THE GIFT MACHINE",
     "#ffffff"
   );
-  drawText(
-    Math.floor(dims.width / 2),
-    Math.floor(dims.height / 2) + 2,
+  grid.drawText(
+    Math.floor(grid.width / 2),
+    Math.floor(grid.height / 2) + 2,
     "a small toy made for hack club giftbox",
     "var(--color-fg)"
   );
@@ -100,9 +81,9 @@ function render(currentTime: number) {
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  for (let y = 0; y < dims.height; y++) {
-    for (let x = 0; x < dims.width; x++) {
-      const cell = grid[y][x];
+  for (let y = 0; y < grid.height; y++) {
+    for (let x = 0; x < grid.width; x++) {
+      const cell = grid.cells[y][x];
       ctx.fillStyle = cell.color;
       ctx.fillText(
         cell.char,

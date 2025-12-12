@@ -9,4 +9,8 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
+<title>
+	the gift machine
+</title>
+
 {@render children()}
