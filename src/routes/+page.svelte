@@ -25,6 +25,16 @@
     }
   }
 
+  function drawText(x: number, y: number, text: string, color: string = "var(--color-fg)", center: boolean = true) {
+    const startX = center ? x - Math.floor(text.length / 2) : x;
+    for (let i = 0; i < text.length; i++) {
+      const posX = startX + i;
+      if (y >= 0 && y < dims.height && posX >= 0 && posX < dims.width) {
+        grid[y][posX] = { char: text.charAt(i), color };
+      }
+    }
+  }
+
   function init() {
     grid = Array(dims.height).fill(null).map(() => Array(dims.width).fill(" "));
   }
@@ -53,6 +63,18 @@
       Math.floor(dims.height / 4),
       Math.floor(dims.width / 2),
       Math.floor(dims.height / 2)
+    );
+    drawText(
+      Math.floor(dims.width / 2),
+      Math.floor(dims.height / 2) - 2,
+      "THE GIFT MACHINE",
+      "#ffffff"
+    );
+    drawText(
+      Math.floor(dims.width / 2),
+      Math.floor(dims.height / 2) + 2,
+      "a small toy made for hack club giftbox",
+      "var(--color-fg)"
     );
   }
 
