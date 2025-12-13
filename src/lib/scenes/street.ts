@@ -1,18 +1,16 @@
 import { config } from "$lib/config";
+import { Interactable } from "$lib/entities/interactable";
+import { Player } from "$lib/entities/player";
+import type { Entity } from "$lib/entity";
 import type { InputManager } from "$lib/input-manager";
 import type { Renderer } from "$lib/renderer";
 import { Scene } from "$lib/scene";
 import type { SceneManager } from "$lib/scene-manager";
 import type { State } from "$lib/state";
-import { clamp, loadArt } from "$lib/utils";
+import { loadArt } from "$lib/utils";
 
 export class StreetScene extends Scene {
-  playerPos: { x: number; y: number } = { x: 0, y: 0 };
-  playerMaxSpeed: number = 20;
-  playerDir: number = 1;
-  gravity: number = 80;
-  playerVel: { x: number; y: number } = { x: 0, y: 0 };
-  playerDeceleration: number = 0.08;
+  player: Player | null = null;
 
   duckArt: string[][] = [];
   duckFlippedArt: string[][] = [];
@@ -29,80 +27,51 @@ export class StreetScene extends Scene {
   }
 
   init(): void {
-    this.playerPos.x = config.dims.width / 2;
-    this.playerPos.y = config.dims.height - 8;
+    super.init();
+    this.player = this.addEntity(new Player(
+      config.dims.width / 2,
+      config.dims.height - 8,
+      this.duckArt,
+      this.duckFlippedArt,
+      config.colors.fg
+    ));
+
+    this.addEntity(new Interactable(
+      2,
+      config.dims.height - 24,
+      this.houseArt,
+      config.colors.accent,
+      this.player
+    ));
+    this.addEntity(new Interactable(
+      config.dims.width - 43,
+      config.dims.height - 20,
+      this.shopArt,
+      config.colors.accent,
+      this.player
+    ));
+    this.addEntity(new Interactable(
+      config.dims.width / 2 - 9,
+      config.dims.height - 13,
+      this.vendingMachineArt,
+      config.colors.accent,
+      this.player
+    ));
   }
 
   update(state: State, input: InputManager, scenes: SceneManager): void {
-    const delta = state.deltaTime;
+    super.update(state, input, scenes);
 
     if (input.isKeyPressed("ArrowLeft")) {
-      this.playerDir = -1;
-      if (this.playerIsOnGround()) {
-        this.playerVel.y = -25;
-        this.playerVel.x = -this.playerMaxSpeed;
-      }
+      this.player?.move(-1);
     } else if (input.isKeyPressed("ArrowRight")) {
-      this.playerDir = 1;
-      if (this.playerIsOnGround()) {
-        this.playerVel.y = -25;
-        this.playerVel.x = this.playerMaxSpeed;
-      }
+      this.player?.move(1);
     } else {
-      if (this.playerIsOnGround()) {
-        this.playerVel.x *= 1 - this.playerDeceleration;
-      }
+      this.player?.decelerate();
     }
-
-    this.playerVel.y += this.gravity * delta;
-    this.playerPos.y += this.playerVel.y * delta;
-
-    if (this.playerIsOnGround()) {
-      this.playerPos.y = config.dims.height - 4;
-      this.playerVel.y = 0;
-    }
-
-    this.playerPos.x += this.playerVel.x * delta;
   }
 
   draw(state: State, renderer: Renderer): void {
-    renderer.drawRect(0, 0, renderer.width, renderer.height, ".", config.colors.bg);
-
-    renderer.drawArt(
-      2,
-      config.dims.height - 24,
-      37,
-      25,
-      this.houseArt,
-      config.colors.accent
-    );
-    renderer.drawArt(
-      config.dims.width - 43,
-      config.dims.height - 20,
-      40,
-      21,
-      this.shopArt,
-      config.colors.accent
-    );
-    renderer.drawArt(
-      config.dims.width / 2 - 9,
-      config.dims.height - 13,
-      18,
-      13,
-      this.vendingMachineArt,
-      config.colors.accent
-    );
-    renderer.drawArt(
-      this.playerPos.x,
-      this.playerPos.y,
-      8,
-      4,
-      this.playerDir === -1 ? this.duckArt : this.duckFlippedArt,
-      config.colors.fg
-    );
-  }
-
-  playerIsOnGround(): boolean {
-    return this.playerPos.y >= config.dims.height - 4;
+    super.draw(state, renderer);
   }
 }

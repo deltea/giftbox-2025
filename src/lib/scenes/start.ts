@@ -51,10 +51,8 @@ export class StartScene extends Scene {
     const centerX = renderer.width / 2;
     const centerY = renderer.height / 2;
 
-    // Draw box
-    renderer.drawRoundedRect(centerX - 30, centerY - 12, 60, 24, 1);
+    renderer.drawRoundedRect(centerX - 30, centerY - 12, 60, 24, 1, "/", config.colors.bg);
 
-    // Draw text
     renderer.drawText(centerX, centerY - 7, "THE GACHA MACHINE", config.colors.fg);
     renderer.drawText(centerX, centerY - 4, "a small game made for hack club giftbox", config.colors.accent);
     renderer.drawText(centerX, centerY - 3, "(for maddie!)", config.colors.accent);

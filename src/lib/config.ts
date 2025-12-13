@@ -20,6 +20,7 @@ export const config: EngineConfig = {
     accent: "#839788"
   },
   startScene: "start",
+  bgChar: ".",
   scenes: {
     "start": new StartScene,
     "game": new GameScene,

@@ -3,6 +3,7 @@ import { Renderer } from "./renderer";
 import { State } from "./state";
 import { config } from "./config";
 import { SceneManager } from "./scene-manager";
+import type { Entity } from "./entity";
 
 export class Engine {
   inputManager: InputManager;

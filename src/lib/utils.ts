@@ -12,3 +12,9 @@ export function clamp(value: number, min: number, max: number): number {
 export function lerp(start: number, end: number, t: number): number {
   return start + (end - start) * t;
 }
+
+export function calculateArtDims(art: string[][]): { w: number; h: number } {
+  const h = art.length;
+  const w = art.reduce((maxWidth, line) => Math.max(maxWidth, line.length), 0);
+  return { w, h };
+}

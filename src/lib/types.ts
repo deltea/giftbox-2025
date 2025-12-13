@@ -29,6 +29,7 @@ export interface EngineConfig {
     bg: string;
     accent: string;
   };
+  bgChar: string;
   startScene: string;
   scenes: {
     [key: string]: Scene;

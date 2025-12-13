@@ -17,6 +17,9 @@ export class SceneManager {
   }
 
   async changeScene(sceneId: string, duration: number = 0): Promise<void> {
+    if (this.isTransitioning) return;
+    this.isTransitioning = true;
+
     const scene = config.scenes[sceneId];
     if (!scene) {
       console.warn(`scene with id "${sceneId}" not found`);
@@ -31,5 +34,7 @@ export class SceneManager {
     this.isTransitioning = duration > 0;
 
     scene.init();
+
+    this.isTransitioning = false;
   }
 }
