@@ -16,19 +16,20 @@ export class SceneManager {
     return config.scenes[this.activeSceneId];
   }
 
-  changeScene(sceneId: string, duration: number = 0): void {
+  async changeScene(sceneId: string, duration: number = 0): Promise<void> {
     const scene = config.scenes[sceneId];
     if (!scene) {
       console.warn(`scene with id "${sceneId}" not found`);
       return;
     }
 
+    await scene.load();
+
     this.activeSceneId = sceneId;
     this.transitionDuration = duration;
     this.transitionProgress = 0;
     this.isTransitioning = duration > 0;
 
-    // TODO: somehow get this to call scene.init()
-    // scene.init(this.state, this.inputManager);
+    scene.init();
   }
 }

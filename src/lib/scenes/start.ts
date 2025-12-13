@@ -4,12 +4,21 @@ import type { Renderer } from "$lib/renderer";
 import { Scene } from "$lib/scene";
 import type { SceneManager } from "$lib/scene-manager";
 import type { State } from "$lib/state";
+import { loadArt } from "$lib/utils";
+
+import duckPath from "$lib/assets/duck-small.txt";
 
 export class StartScene extends Scene {
   isLeftPressed: boolean = false;
   isRightPressed: boolean = false;
 
-  init(state: State, input: InputManager): void {
+  duckArt: string[][] = [];
+
+  async load(): Promise<void> {
+    this.duckArt = await loadArt(duckPath);
+  }
+
+  init(): void {
     console.log("scene initialized");
   }
 
@@ -48,13 +57,19 @@ export class StartScene extends Scene {
     renderer.drawRoundedRect(centerX - 30, centerY - 12, 60, 24, 1);
 
     // Draw text
-    renderer.drawText(centerX, centerY - 6, "THE GACHA MACHINE", config.colors.fg);
-    renderer.drawText(centerX, centerY - 4, "a small toy made for hack club giftbox", config.colors.accent);
+    renderer.drawText(centerX, centerY - 7, "THE GACHA MACHINE", config.colors.fg);
+    renderer.drawText(centerX, centerY - 4, "a small game made for hack club giftbox", config.colors.accent);
     renderer.drawText(centerX, centerY - 3, "(for maddie!)", config.colors.accent);
 
-    renderer.drawText(centerX, centerY + 4, "press   and   to start", config.colors.accent);
+    renderer.drawArt(
+      centerX - 4,
+      centerY,
+      this.duckArt,
+      config.colors.fg
+    );
 
-    renderer.drawText(centerX - 5, centerY + 4, "⬅", this.isLeftPressed ? config.colors.fg : config.colors.accent, false);
-    renderer.drawText(centerX + 1, centerY + 4, "⮕", this.isRightPressed ? config.colors.fg : config.colors.accent, false);
+    renderer.drawText(centerX, centerY + 6, "press   and   to start", config.colors.accent);
+    renderer.drawText(centerX - 5, centerY + 6, "⬅", this.isLeftPressed ? config.colors.fg : config.colors.accent, false);
+    renderer.drawText(centerX + 1, centerY + 6, "⮕", this.isRightPressed ? config.colors.fg : config.colors.accent, false);
   }
 }

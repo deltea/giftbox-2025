@@ -14,12 +14,11 @@ export class GameScene extends Scene {
   clawPos: { x: number; y: number } = { x: 0, y: 0 };
   clawSpeed: number = 25;
 
-  constructor() {
-    super();
-    loadArt(clawArtPath).then(art => this.clawArt = art);
+  async load(): Promise<void> {
+    this.clawArt = await loadArt(clawArtPath);
   }
 
-  init(state: State, input: InputManager): void {
+  init(): void {
     // run once when the scene is loaded
   }
 

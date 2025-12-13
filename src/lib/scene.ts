@@ -4,7 +4,8 @@ import type { SceneManager } from "./scene-manager";
 import type { State } from "./state";
 
 export abstract class Scene {
-  abstract init(state: State, input: InputManager): void;
+  abstract load(): Promise<void>;
+  abstract init(): void;
   abstract update(state: State, input: InputManager, scenes: SceneManager): void;
   abstract draw(state: State, renderer: Renderer): void;
 }
