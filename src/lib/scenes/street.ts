@@ -41,21 +41,24 @@ export class StreetScene extends Scene {
       config.dims.height - 24,
       this.houseArt,
       config.colors.accent,
-      this.player
+      this.player,
+      "↵ enter house"
     ));
     this.addEntity(new Interactable(
       config.dims.width - 43,
       config.dims.height - 20,
       this.shopArt,
       config.colors.accent,
-      this.player
+      this.player,
+      "↵ enter store"
     ));
     this.addEntity(new Interactable(
       config.dims.width / 2 - 9,
       config.dims.height - 13,
       this.vendingMachineArt,
       config.colors.accent,
-      this.player
+      this.player,
+      "↵ use vending machine"
     ));
   }
 

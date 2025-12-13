@@ -7,7 +7,7 @@ export const config: EngineConfig = {
   containerId: "container",
   fontSize: 16,
   padding: 24,
-  pixelRatio: 3,
+  pixelRatio: window.devicePixelRatio || 2,
   dims: {
     // width: Math.floor((window.innerWidth - 24 * 2) / (16 / 1.5)),
     // height: Math.floor((window.innerHeight - 24 * 2) / 16)

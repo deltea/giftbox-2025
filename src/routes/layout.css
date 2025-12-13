@@ -20,3 +20,7 @@ main {
   align-items: center;
   width: 100%;
 }
+
+canvas {
+  image-rendering: pixelated;
+}
