@@ -1,17 +1,27 @@
 import { colors } from "./config";
 import type { Cell } from "./types";
 
-export interface Grid {
+export class Grid {
   width: number;
   height: number;
   cells: Cell[][];
-}
 
-export class Grid {
   constructor(width: number, height: number) {
     this.width = width;
     this.height = height;
-    this.cells = Array(height).fill(null).map(() => Array(width).fill({ char: " ", color: colors.fg }));
+    this.cells = Array(height)
+      .fill(null)
+      .map(() =>
+        Array(width).fill({ char: " ", color: colors.fg })
+      );
+  }
+
+  clear(): void {
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+        this.cells[y][x] = { char: " ", color: colors.fg };
+      }
+    }
   }
 
   drawRect(x: number, y: number, w: number, h: number, char: string = " ", color: string = colors.fg) {
