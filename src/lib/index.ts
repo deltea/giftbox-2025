@@ -1,9 +1,10 @@
+import { padding, pixelRatio, fontSize, colors } from "./config";
+import { EventManager } from "./eventManager";
 import { Grid } from "./grid";
 
+const events = new EventManager();
+
 let grid: Grid;
-const fontSize = 16;
-const padding = 24;
-const pixelRatio = window.devicePixelRatio || 2;
 
 let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
@@ -55,34 +56,12 @@ function update(currentTime: number) {
     }
   }
 
-  grid.drawRoundedRect(
-    Math.floor(grid.width / 4),
-    Math.floor(grid.height / 4),
-    Math.floor(grid.width / 2),
-    Math.floor(grid.height / 2),
-    5
-  );
-  grid.drawText(
-    Math.floor(grid.width / 2),
-    Math.floor(grid.height / 2) - 2,
-    "THE GIFT MACHINE",
-    "#ffffff"
-  );
-  grid.drawText(
-    Math.floor(grid.width / 2),
-    Math.floor(grid.height / 2) + 2,
-    "a small toy made for hack club giftbox",
-    "var(--color-fg)"
-  );
-  grid.addButton(
-    Math.floor(grid.width / 2) - 10,
-    Math.floor(grid.height / 2) + 4,
-    20,
-    3,
-    "var(--color-fg)",
-    "PRESS TO START",
-    () => console.log("yayyyy!")
-  );
+  grid.drawRoundedRect(grid.width / 3, grid.height / 3, grid.width / 3, grid.height / 3, 4);
+  grid.drawText(grid.width / 2, grid.height / 2 - 6, "THE GIFT MACHINE (for maddie!)", colors.fg);
+  grid.drawText( grid.width / 2, grid.height / 2 - 4, "a small toy made for hack club giftbox", colors.fg);
+  grid.drawText(grid.width / 2, grid.height / 2 + 4, "press   and   to start", colors.accent);
+  grid.drawText(grid.width / 2 - 5, grid.height / 2 + 4, "⬅", events.isKeyPressed("ArrowLeft") ? colors.fg : colors.accent);
+  grid.drawText(grid.width / 2 + 1, grid.height / 2 + 4, "⮕", events.isKeyPressed("ArrowRight") ? colors.fg : colors.accent);
 }
 
 function render(currentTime: number) {
