@@ -8,17 +8,18 @@ import type { State } from "./state";
 export abstract class Scene {
   entities: Entity[] = [];
   abstract load(): Promise<void>;
-  init(): void {};
+
+  init(scenes: SceneManager): void {};
 
   update(state: State, input: InputManager, scenes: SceneManager): void {
     for (const entity of this.entities) {
-      entity.update(state);
+      entity.update(state, input);
     }
   };
 
-  draw(state: State, renderer: Renderer): void {
+  draw(state: State, renderer: Renderer, bgChar: string = config.bgChar, bgColor: string = config.colors.bg): void {
     // draw background
-    renderer.drawRect(0, 0, renderer.width, renderer.height, config.bgChar, config.colors.bg);
+    renderer.drawRect(0, 0, renderer.width, renderer.height, bgChar, bgColor);
 
     const sortedEntities = this.entities.slice().sort((a, b) => a.layer - b.layer);
     for (const entity of sortedEntities) {

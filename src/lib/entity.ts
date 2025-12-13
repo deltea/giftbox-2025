@@ -1,3 +1,4 @@
+import type { InputManager } from "./input-manager";
 import type { Renderer } from "./renderer";
 import type { State } from "./state";
 import { calculateArtDims } from "./utils";
@@ -17,7 +18,7 @@ export class Entity {
     this.layer = layer;
   }
 
-  update(state: State): void {}
+  update(state: State, input: InputManager): void {}
 
   draw(renderer: Renderer): void {
     renderer.drawArt(

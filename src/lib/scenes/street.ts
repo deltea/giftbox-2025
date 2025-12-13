@@ -26,8 +26,8 @@ export class StreetScene extends Scene {
     this.vendingMachineArt = await loadArt("/src/lib/assets/vending-machine.txt");
   }
 
-  init(): void {
-    super.init();
+  init(scenes: SceneManager): void {
+    super.init(scenes);
     this.player = this.addEntity(new Player(
       config.dims.width / 2,
       config.dims.height - 8,
@@ -42,7 +42,8 @@ export class StreetScene extends Scene {
       this.houseArt,
       config.colors.accent,
       this.player,
-      "↵ enter house"
+      "↵ enter house",
+      () => scenes.changeScene("home")
     ));
     this.addEntity(new Interactable(
       config.dims.width - 43,
@@ -50,7 +51,8 @@ export class StreetScene extends Scene {
       this.shopArt,
       config.colors.accent,
       this.player,
-      "↵ enter store"
+      "↵ enter store",
+      () => scenes.changeScene("home")
     ));
     this.addEntity(new Interactable(
       config.dims.width / 2 - 9,
@@ -58,20 +60,13 @@ export class StreetScene extends Scene {
       this.vendingMachineArt,
       config.colors.accent,
       this.player,
-      "↵ use vending machine"
+      "↵ use vending machine",
+      () => scenes.changeScene("home")
     ));
   }
 
   update(state: State, input: InputManager, scenes: SceneManager): void {
     super.update(state, input, scenes);
-
-    if (input.isKeyPressed("ArrowLeft")) {
-      this.player?.move(-1);
-    } else if (input.isKeyPressed("ArrowRight")) {
-      this.player?.move(1);
-    } else {
-      this.player?.decelerate();
-    }
   }
 
   draw(state: State, renderer: Renderer): void {

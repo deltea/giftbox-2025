@@ -33,7 +33,7 @@ export class SceneManager {
     this.transitionProgress = 0;
     this.isTransitioning = duration > 0;
 
-    scene.init();
+    scene.init(this);
 
     this.isTransitioning = false;
   }

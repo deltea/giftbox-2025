@@ -1,5 +1,6 @@
 import { config } from "$lib/config";
 import { Entity } from "$lib/entity";
+import type { InputManager } from "$lib/input-manager";
 import type { Renderer } from "$lib/renderer";
 import type { State } from "$lib/state";
 
@@ -10,22 +11,34 @@ export class Player extends Entity {
   velocity: { x: number; y: number } = { x: 0, y: 0 };
   deceleration: number = 0.08;
   flippedArt: string[][] = [];
+  ground: number;
 
-  constructor(x: number, y: number, art: string[][], flippedArt: string[][], color: string) {
+  constructor(x: number, y: number, art: string[][], flippedArt: string[][], color: string, ground: number = config.dims.height - 4) {
     super(x, y, art, color, 10);
     this.flippedArt = flippedArt;
+    this.ground = ground;
   }
 
-  update(state: State): void {
+  update(state: State, input: InputManager): void {
     this.velocity.y += this.gravity * state.deltaTime;
     this.pos.y += this.velocity.y * state.deltaTime;
 
     if (this.isOnGround()) {
-      this.pos.y = config.dims.height - 4;
+      this.pos.y = this.ground;
       this.velocity.y = 0;
     }
 
     this.pos.x += this.velocity.x * state.deltaTime;
+
+    if (input.isKeyPressed("ArrowLeft")) {
+      this.move(-1);
+    } else if (input.isKeyPressed("ArrowRight")) {
+      this.move(1);
+    } else {
+      if (this.isOnGround()) {
+        this.velocity.x *= 1 - this.deceleration;
+      }
+    }
   }
 
   draw(renderer: Renderer): void {
@@ -48,13 +61,7 @@ export class Player extends Entity {
     }
   }
 
-  decelerate(): void {
-    if (this.isOnGround()) {
-      this.velocity.x *= 1 - this.deceleration;
-    }
-  }
-
   isOnGround(): boolean {
-    return this.pos.y >= config.dims.height - 4;
+    return this.pos.y >= this.ground;
   }
 }

@@ -25,7 +25,7 @@ export class StartScene extends Scene {
     this.isRightPressed = input.isKeyPressed("ArrowRight");
 
     if (this.isLeftPressed && this.isRightPressed) {
-      scenes.changeScene("street");
+      scenes.changeScene("home");
     }
   }
 

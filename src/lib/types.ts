@@ -10,7 +10,7 @@ export interface Cell {
 
 export interface Scene {
   load(): Promise<void>;
-  init(): void;
+  init(scenes: SceneManager): void;
   update(state: State, input: InputManager, scenes: SceneManager): void;
   draw(state: State, renderer: Renderer): void;
 }

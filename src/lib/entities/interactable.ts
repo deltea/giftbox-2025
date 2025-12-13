@@ -1,5 +1,6 @@
 import { config } from "$lib/config";
 import { Entity } from "$lib/entity";
+import type { InputManager } from "$lib/input-manager";
 import type { Renderer } from "$lib/renderer";
 import type { State } from "$lib/state";
 
@@ -7,19 +8,27 @@ export class Interactable extends Entity {
   target: Entity;
   isActive: boolean = true;
   text: string = "";
+  callback?: () => void;
 
-  constructor(x: number, y: number, art: string[][], color: string, target: Entity, text: string = "") {
+  constructor(x: number, y: number, art: string[][], color: string, target: Entity, text: string = "", callback?: () => void) {
     super(x, y, art, color);
     this.target = target;
     this.text = text;
+    this.callback = callback;
   }
 
-  update(state: State): void {
-    super.update(state);
+  update(state: State, input: InputManager): void {
+    super.update(state, input);
     if (!this.isActive && this.isTouching(this.target)) {
       this.onInteract();
     } else if (this.isActive && !this.isTouching(this.target)) {
       this.onDisinteract();
+    }
+
+    if (this.isActive && input.isKeyPressed("Enter")) {
+      if (this.callback) {
+        this.callback();
+      }
     }
   }
 
