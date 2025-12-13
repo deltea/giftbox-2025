@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #292929;
+  --color-bg: #242825;
   --color-fg: #eee0cb;
   --color-accent: #839788;
   --font-mono: "JetBrains Mono", monospace;

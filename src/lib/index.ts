@@ -55,11 +55,12 @@ function update(currentTime: number) {
     }
   }
 
-  grid.drawRect(
+  grid.drawRoundedRect(
     Math.floor(grid.width / 4),
     Math.floor(grid.height / 4),
     Math.floor(grid.width / 2),
-    Math.floor(grid.height / 2)
+    Math.floor(grid.height / 2),
+    5
   );
   grid.drawText(
     Math.floor(grid.width / 2),
@@ -72,6 +73,15 @@ function update(currentTime: number) {
     Math.floor(grid.height / 2) + 2,
     "a small toy made for hack club giftbox",
     "var(--color-fg)"
+  );
+  grid.addButton(
+    Math.floor(grid.width / 2) - 10,
+    Math.floor(grid.height / 2) + 4,
+    20,
+    3,
+    "var(--color-fg)",
+    "PRESS TO START",
+    () => console.log("yayyyy!")
   );
 }
 
