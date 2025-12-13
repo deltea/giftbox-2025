@@ -1,5 +1,6 @@
 import { GameScene } from "./scenes/game";
 import { StartScene } from "./scenes/start";
+import { StreetScene } from "./scenes/street";
 import type { EngineConfig } from "./types";
 
 export const config: EngineConfig = {
@@ -19,6 +20,7 @@ export const config: EngineConfig = {
   startScene: "start",
   scenes: {
     "start": new StartScene,
-    "game": new GameScene
+    "game": new GameScene,
+    "street": new StreetScene
   }
 }

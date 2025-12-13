@@ -143,13 +143,11 @@ export class Renderer {
     }
   }
 
-  drawArt(x: number, y: number, art: string[][], color: string = config.colors.fg) {
+  drawArt(x: number, y: number, w: number, h: number, art: string[][], color: string = config.colors.fg) {
     const pos = { x: Math.floor(x), y: Math.floor(y) };
-    const artHeight = art.length;
-    const artWidth = 22;
 
-    for (let i = 0; i < artHeight; i++) {
-      for (let j = 0; j < artWidth; j++) {
+    for (let i = 0; i < h; i++) {
+      for (let j = 0; j < w; j++) {
         const posX = pos.x + j;
         const posY = pos.y + i;
         const artCell = art[i][j]

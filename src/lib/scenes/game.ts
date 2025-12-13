@@ -40,6 +40,8 @@ export class GameScene extends Scene {
     renderer.drawArt(
       this.clawPos.x,
       this.clawPos.y,
+      21,
+      12,
       this.clawArt,
       config.colors.fg
     );

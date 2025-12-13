@@ -27,7 +27,7 @@ export class StartScene extends Scene {
     this.isRightPressed = input.isKeyPressed("ArrowRight");
 
     if (this.isLeftPressed && this.isRightPressed) {
-      scenes.changeScene("game");
+      scenes.changeScene("street");
     }
   }
 
@@ -64,6 +64,8 @@ export class StartScene extends Scene {
     renderer.drawArt(
       centerX - 4,
       centerY,
+      8,
+      4,
       this.duckArt,
       config.colors.fg
     );
