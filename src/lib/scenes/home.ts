@@ -27,7 +27,8 @@ export class HomeScene extends Scene {
       this.duckArt,
       this.duckFlippedArt,
       config.colors.fg,
-      config.dims.height - 10
+      config.dims.height - 15 - this.duckArt.length + 1,
+      { min: 12, max: config.dims.width - 12 }
     ));
   }
 
@@ -40,9 +41,9 @@ export class HomeScene extends Scene {
 
     renderer.drawRoundedRect(
       10,
-      6,
+      15,
       renderer.width - 20,
-      renderer.height - 12,
+      renderer.height - 30,
       8,
       "#",
       config.colors.bg,

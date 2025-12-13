@@ -3,6 +3,7 @@ import { Entity } from "$lib/entity";
 import type { InputManager } from "$lib/input-manager";
 import type { Renderer } from "$lib/renderer";
 import type { State } from "$lib/state";
+import { clamp } from "$lib/utils";
 
 export class Player extends Entity {
   maxSpeed: number = 20;
@@ -12,11 +13,13 @@ export class Player extends Entity {
   deceleration: number = 0.08;
   flippedArt: string[][] = [];
   ground: number;
+  xLimits: { min: number; max: number } = { min: 0, max: config.dims.width };
 
-  constructor(x: number, y: number, art: string[][], flippedArt: string[][], color: string, ground: number = config.dims.height - 4) {
+  constructor(x: number, y: number, art: string[][], flippedArt: string[][], color: string, ground: number = config.dims.height - 4, xLimits: { min: number; max: number } = { min: 0, max: config.dims.width }) {
     super(x, y, art, color, 10);
     this.flippedArt = flippedArt;
     this.ground = ground;
+    this.xLimits = xLimits;
   }
 
   update(state: State, input: InputManager): void {
@@ -29,6 +32,7 @@ export class Player extends Entity {
     }
 
     this.pos.x += this.velocity.x * state.deltaTime;
+    this.pos.x = clamp(this.pos.x, this.xLimits.min, this.xLimits.max - this.artDims.w);
 
     if (input.isKeyPressed("ArrowLeft")) {
       this.move(-1);
