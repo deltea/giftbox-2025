@@ -3,6 +3,7 @@
 
 @theme {
   --color-bg: #242825;
+  /* --color-bg: #2f3731; */
   --color-fg: #eee0cb;
   --color-accent: #839788;
   --font-mono: "JetBrains Mono", monospace;

@@ -13,7 +13,7 @@ export const config: EngineConfig = {
   },
   colors: {
     fg: "#eee0cb",
-    bg: "#242825",
+    bg: "#2f3731",
     accent: "#839788"
   },
   startScene: "start",

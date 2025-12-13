@@ -28,6 +28,7 @@ export class SceneManager {
     this.transitionProgress = 0;
     this.isTransitioning = duration > 0;
 
+    // TODO: somehow get this to call scene.init()
     // scene.init(this.state, this.inputManager);
   }
 }

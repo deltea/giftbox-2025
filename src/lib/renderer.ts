@@ -142,4 +142,23 @@ export class Renderer {
       }
     }
   }
+
+  drawArt(x: number, y: number, art: string[][], color: string = config.colors.fg) {
+    const pos = { x: Math.floor(x), y: Math.floor(y) };
+    const artHeight = art.length;
+    const artWidth = 22;
+
+    for (let i = 0; i < artHeight; i++) {
+      for (let j = 0; j < artWidth; j++) {
+        const posX = pos.x + j;
+        const posY = pos.y + i;
+        const artCell = art[i][j]
+        if (posY >= 0 && posY < this.height && posX >= 0 && posX < this.width) {
+          if (artCell && artCell !== " ") {
+            this.setCell(posX, posY, artCell, color);
+          }
+        }
+      }
+    }
+  }
 }
