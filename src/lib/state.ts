@@ -1,4 +1,4 @@
-export class GameState {
+export class State {
   // private playerPosition: { x: number; y: number } = { x: 0, y: 0 };
   private gameTime: number = 0;
   private isStarted: boolean = false;

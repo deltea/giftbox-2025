@@ -1,7 +1,7 @@
 import { EventManager } from "./eventManager";
 import { Grid } from "./grid";
 import { Renderer } from "./renderer";
-import { GameState } from "./gameState";
+import { State } from "./state";
 import type { EngineConfig } from "./types";
 
 export class Engine {
@@ -9,7 +9,7 @@ export class Engine {
   private eventManager: EventManager;
   private grid: Grid;
   private renderer: Renderer;
-  private gameState: GameState;
+  private gameState: State;
   private animationId: number = 0;
   private isRunning: boolean = false;
 
@@ -18,7 +18,7 @@ export class Engine {
     this.eventManager = new EventManager();
     this.grid = new Grid(config.gridWidth, config.gridHeight);
     this.renderer = new Renderer(config);
-    this.gameState = new GameState();
+    this.gameState = new State();
   }
 
   async init(): Promise<void> {
@@ -138,7 +138,7 @@ export class Engine {
     return this.grid;
   }
 
-  getGameState(): GameState {
+  getState(): State {
     return this.gameState;
   }
 
