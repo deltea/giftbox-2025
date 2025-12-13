@@ -1,5 +1,6 @@
-import type { InputManager } from "./InputManager";
+import type { InputManager } from "./input-manager";
 import type { Renderer } from "./renderer";
+import type { SceneManager } from "./scene-manager";
 import type { State } from "./state";
 
 export interface Cell {
@@ -9,8 +10,8 @@ export interface Cell {
 
 export interface Scene {
   init(state: State, input: InputManager): void;
-  update(state: State, input: InputManager): void;
-  render(state: State, draw: Renderer): void;
+  update(state: State, input: InputManager, scenes: SceneManager): void;
+  draw(state: State, renderer: Renderer): void;
 }
 
 export interface EngineConfig {

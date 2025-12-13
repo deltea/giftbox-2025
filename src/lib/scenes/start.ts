@@ -1,7 +1,8 @@
 import { config } from "$lib/config";
-import type { InputManager } from "$lib/InputManager";
+import type { InputManager } from "$lib/input-manager";
 import type { Renderer } from "$lib/renderer";
 import { Scene } from "$lib/scene";
+import type { SceneManager } from "$lib/scene-manager";
 import type { State } from "$lib/state";
 
 export class StartScene extends Scene {
@@ -10,15 +11,18 @@ export class StartScene extends Scene {
 
   init(state: State, input: InputManager): void {
     console.log("scene initialized");
-    input.onKeyDown("Enter", () => console.log("enter key pressed"));
   }
 
-  update(state: State, input: InputManager): void {
+  update(state: State, input: InputManager, scenes: SceneManager): void {
     this.isLeftPressed = input.isKeyPressed("ArrowLeft");
     this.isRightPressed = input.isKeyPressed("ArrowRight");
+
+    if (this.isLeftPressed && this.isRightPressed) {
+      scenes.changeScene("game");
+    }
   }
 
-  render(state: State, renderer: Renderer): void {
+  draw(state: State, renderer: Renderer): void {
     const time = state.gameTime * 0.002;
     const chars = " .:-=+*#%@";
 
@@ -45,7 +49,7 @@ export class StartScene extends Scene {
 
     // Draw text
     renderer.drawText(centerX, centerY - 6, "THE GIFT MACHINE (for maddie!)", config.colors.fg);
-    renderer.drawText(centerX, centerY - 4, "a small toy made for hack club giftbox", config.colors.fg);
+    renderer.drawText(centerX, centerY - 4, "a small toy made for hack club giftbox", config.colors.accent);
     renderer.drawText(centerX, centerY + 4, "press   and   to start", config.colors.accent);
 
     renderer.drawText(centerX - 5, centerY + 4, "⬅", this.isLeftPressed ? config.colors.fg : config.colors.accent, false);

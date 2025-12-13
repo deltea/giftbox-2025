@@ -1,3 +1,4 @@
+import { GameScene } from "./scenes/game";
 import { StartScene } from "./scenes/start";
 import type { EngineConfig } from "./types";
 
@@ -17,6 +18,7 @@ export const config: EngineConfig = {
   },
   startScene: "start",
   scenes: {
-    "start": new StartScene
+    "start": new StartScene,
+    "game": new GameScene
   }
 }
