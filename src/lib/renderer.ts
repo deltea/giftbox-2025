@@ -1,59 +1,69 @@
-import { Grid } from "./grid";
-import type { EngineConfig } from "./types";
+import { config } from "./config";
+import type { Cell } from "./types";
 
+/**
+ * renders a ascii grid to the canvas
+ * has a bunch of util methods for drawing shapes and text
+ */
 export class Renderer {
-  private canvas: HTMLCanvasElement | null = null;
-  private ctx: CanvasRenderingContext2D | null = null;
-  private config: EngineConfig;
+  canvas: HTMLCanvasElement | null = null;
+  ctx: CanvasRenderingContext2D | null = null;
+  width: number;
+  height: number;
+  grid: Cell[][];
 
-  constructor(config: EngineConfig) {
-    this.config = config;
+  constructor(width: number, height: number) {
+    this.width = width;
+    this.height = height;
+    this.grid = Array(height)
+      .fill(null)
+      .map(() =>
+        Array(width).fill({ char: " ", color: config.colors.fg })
+      );
   }
 
   init(): void {
     this.canvas = document.createElement("canvas");
-    const container = document.getElementById(this.config.containerId);
+    const container = document.getElementById(config.containerId);
 
     if (!container) {
-      throw new Error(
-        `Container with id "${this.config.containerId}" not found`
-      );
+      throw new Error(`container with id "${config.containerId}" not found`);
     }
 
     container.appendChild(this.canvas);
-    container.style.padding = `${this.config.padding}px`;
+    container.style.padding = `${config.padding}px`;
 
-    const displayWidth = this.config.gridWidth * (this.config.fontSize / 1.5);
-    const displayHeight = this.config.gridHeight * this.config.fontSize;
+    const displayWidth = config.dims.width * (config.fontSize / 1.5);
+    const displayHeight = config.dims.height * config.fontSize;
 
-    this.canvas.width = displayWidth * this.config.pixelRatio;
-    this.canvas.height = displayHeight * this.config.pixelRatio;
+    this.canvas.width = displayWidth * config.pixelRatio;
+    this.canvas.height = displayHeight * config.pixelRatio;
 
     this.canvas.style.width = displayWidth + "px";
     this.canvas.style.height = displayHeight + "px";
 
     this.ctx = this.canvas.getContext("2d");
     if (!this.ctx) {
-      throw new Error("Failed to get 2D context from canvas");
+      throw new Error("failed to get 2d context from canvas");
     }
   }
 
-  render(grid: Grid): void {
+  render(): void {
     if (!this.ctx || !this.canvas) return;
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.font = `${this.config.fontSize * this.config.pixelRatio}px monospace`;
+    this.ctx.font = `${config.fontSize * config.pixelRatio}px monospace`;
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "middle";
 
-    for (let y = 0; y < grid.height; y++) {
-      for (let x = 0; x < grid.width; x++) {
-        const cell = grid.cells[y][x];
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+        const cell = this.grid[y][x];
         this.ctx.fillStyle = cell.color;
         this.ctx.fillText(
           cell.char,
-          (x + 0.5) * (this.config.fontSize / 1.5) * this.config.pixelRatio,
-          (y + 0.5) * this.config.fontSize * this.config.pixelRatio
+          (x + 0.5) * (config.fontSize / 1.5) * config.pixelRatio,
+          (y + 0.5) * config.fontSize * config.pixelRatio
         );
       }
     }
@@ -65,5 +75,71 @@ export class Renderer {
     }
     this.canvas = null;
     this.ctx = null;
+  }
+
+  getCell(x: number, y: number): Cell | null {
+    const posX = Math.floor(x);
+    const posY = Math.floor(y);
+    if (posY >= 0 && posY < this.height && posX >= 0 && posX < this.width) {
+      return this.grid[posY][posX];
+    }
+    return null;
+  }
+
+  setCell(x: number, y: number, char: string, color: string = config.colors.fg) {
+    const posX = Math.floor(x);
+    const posY = Math.floor(y);
+    if (posY >= 0 && posY < this.height && posX >= 0 && posX < this.width) {
+      this.grid[posY][posX] = { char, color };
+    }
+  }
+
+  // drawing methods
+  clear(): void {
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+        this.grid[y][x] = { char: " ", color: config.colors.fg };
+      }
+    }
+  }
+
+  drawRect(x: number, y: number, w: number, h: number, char: string = " ", color: string = config.colors.fg) {
+    const pos = { x: Math.floor(x), y: Math.floor(y) };
+    const dims = { w: Math.floor(w), h: Math.floor(h) };
+    for (let i = pos.y; i < pos.y + dims.h; i++) {
+      for (let j = pos.x; j < pos.x + dims.w; j++) {
+        if (i >= 0 && i < this.height && j >= 0 && j < this.width) {
+          this.setCell(j, i, char, color);
+        }
+      }
+    }
+  }
+
+  drawRoundedRect(x: number, y: number, w: number, h: number, radius: number, char: string = " ", color: string = config.colors.fg) {
+    const pos = { x: Math.floor(x), y: Math.floor(y) };
+    const dims = { w: Math.floor(w), h: Math.floor(h) };
+    for (let i = pos.y; i < pos.y + dims.h; i++) {
+      for (let j = pos.x; j < pos.x + dims.w; j++) {
+        const inCorner =
+          (i < pos.y + radius && j < pos.x + radius && (Math.pow(j - (pos.x + radius), 2) + Math.pow(i - (pos.y + radius), 2) > Math.pow(radius, 2))) ||
+          (i < pos.y + radius && j >= pos.x + dims.w - radius && (Math.pow(j - (pos.x + dims.w - radius - 1), 2) + Math.pow(i - (pos.y + radius), 2) > Math.pow(radius, 2))) ||
+          (i >= pos.y + dims.h - radius && j < pos.x + radius && (Math.pow(j - (pos.x + radius), 2) + Math.pow(i - (pos.y + dims.h - radius - 1), 2) > Math.pow(radius, 2))) ||
+          (i >= pos.y + dims.h - radius && j >= pos.x + dims.w - radius && (Math.pow(j - (pos.x + dims.w - radius - 1), 2) + Math.pow(i - (pos.y + dims.h - radius - 1), 2) > Math.pow(radius, 2)));
+        if (i >= 0 && i < this.height && j >= 0 && j < this.width && !inCorner) {
+          this.setCell(j, i, char, color);
+        }
+      }
+    }
+  }
+
+  drawText(x: number, y: number, text: string, color: string = config.colors.fg, center: boolean = true) {
+    const pos = { x: Math.floor(x), y: Math.floor(y) };
+    const startX = center ? pos.x - Math.floor(text.length / 2) : pos.x;
+    for (let i = 0; i < text.length; i++) {
+      const posX = startX + i;
+      if (pos.y >= 0 && pos.y < this.height && posX >= 0 && posX < this.width) {
+        this.setCell(posX, pos.y, text.charAt(i), color);
+      }
+    }
   }
 }

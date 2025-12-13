@@ -1,9 +1,4 @@
-/**
- * Event Manager for handling keyboard input
- * Tracks which keys are currently being held down
- */
-
-export class EventManager {
+export class InputManager {
   private keysPressed: Map<string, boolean> = new Map();
   private keyDownCallbacks: Map<string, Set<() => void>> = new Map();
   private keyUpCallbacks: Map<string, Set<() => void>> = new Map();
@@ -47,16 +42,10 @@ export class EventManager {
     }
   }
 
-  /**
-   * Check if a key is currently being held down
-   */
   isKeyPressed(key: string): boolean {
     return this.keysPressed.get(key.toLowerCase()) ?? false;
   }
 
-  /**
-   * Register a callback for when a key is initially pressed
-   */
   onKeyDown(key: string, callback: () => void) {
     const keyLower = key.toLowerCase();
     if (!this.keyDownCallbacks.has(keyLower)) {
@@ -65,9 +54,6 @@ export class EventManager {
     this.keyDownCallbacks.get(keyLower)!.add(callback);
   }
 
-  /**
-   * Register a callback for when a key is released
-   */
   onKeyUp(key: string, callback: () => void) {
     const keyLower = key.toLowerCase();
     if (!this.keyUpCallbacks.has(keyLower)) {
@@ -76,9 +62,6 @@ export class EventManager {
     this.keyUpCallbacks.get(keyLower)!.add(callback);
   }
 
-  /**
-   * Register a callback that fires while a key is held down
-   */
   onKeyHold(key: string, callback: () => void) {
     const keyLower = key.toLowerCase();
     if (!this.holdCallbacks.has(keyLower)) {
@@ -87,9 +70,6 @@ export class EventManager {
     this.holdCallbacks.get(keyLower)!.add(callback);
   }
 
-  /**
-   * Remove a callback
-   */
   removeKeyDownCallback(key: string, callback: () => void) {
     const keyLower = key.toLowerCase();
     this.keyDownCallbacks.get(keyLower)?.delete(callback);
@@ -105,18 +85,12 @@ export class EventManager {
     this.holdCallbacks.get(keyLower)?.delete(callback);
   }
 
-  /**
-   * Get all currently pressed keys
-   */
   getPressedKeys(): string[] {
     return Array.from(this.keysPressed.entries())
       .filter(([_, pressed]) => pressed)
       .map(([key, _]) => key);
   }
 
-  /**
-   * Clean up event listeners
-   */
   destroy() {
     window.removeEventListener("keydown", (e) => this.handleKeyDown(e));
     window.removeEventListener("keyup", (e) => this.handleKeyUp(e));
