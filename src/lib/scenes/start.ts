@@ -41,41 +41,14 @@ export class StartScene extends Scene {
     const centerY = renderer.height / 2;
 
     // Draw box
-    renderer.drawRoundedRect(centerX - 30, centerY - 12, 60, 24, 4);
+    renderer.drawRoundedRect(centerX - 30, centerY - 12, 60, 24, 1);
 
     // Draw text
-    renderer.drawText(
-      centerX,
-      centerY - 6,
-      "THE GIFT MACHINE (for maddie!)",
-      config.colors.fg
-    );
-    renderer.drawText(
-      centerX,
-      centerY - 4,
-      "a small toy made for hack club giftbox",
-      config.colors.fg
-    );
-    renderer.drawText(
-      centerX,
-      centerY + 4,
-      "press   and   to start",
-      config.colors.accent
-    );
+    renderer.drawText(centerX, centerY - 6, "THE GIFT MACHINE (for maddie!)", config.colors.fg);
+    renderer.drawText(centerX, centerY - 4, "a small toy made for hack club giftbox", config.colors.fg);
+    renderer.drawText(centerX, centerY + 4, "press   and   to start", config.colors.accent);
 
-    renderer.drawText(
-      centerX - 5,
-      centerY + 4,
-      "⬅",
-      this.isLeftPressed ? config.colors.fg : config.colors.accent,
-      false
-    );
-    renderer.drawText(
-      centerX + 1,
-      centerY + 4,
-      "⮕",
-      this.isRightPressed ? config.colors.fg : config.colors.accent,
-      false
-    );
+    renderer.drawText(centerX - 5, centerY + 4, "⬅", this.isLeftPressed ? config.colors.fg : config.colors.accent, false);
+    renderer.drawText(centerX + 1, centerY + 4, "⮕", this.isRightPressed ? config.colors.fg : config.colors.accent, false);
   }
 }
