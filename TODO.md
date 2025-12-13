@@ -1,0 +1,1 @@
+- add the mob psycho poster

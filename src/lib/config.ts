@@ -1,4 +1,3 @@
-import { GameScene } from "./scenes/game";
 import { HomeScene } from "./scenes/home";
 import { StartScene } from "./scenes/start";
 import { StreetScene } from "./scenes/street";
@@ -24,7 +23,6 @@ export const config: EngineConfig = {
   bgChar: ".",
   scenes: {
     "start": new StartScene,
-    "game": new GameScene,
     "street": new StreetScene,
     "home": new HomeScene
   }

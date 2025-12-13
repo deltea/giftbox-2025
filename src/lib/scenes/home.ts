@@ -14,18 +14,22 @@ export class HomeScene extends Scene {
   duckArt: string[][] = [];
   duckFlippedArt: string[][] = [];
   doorArt: string[][] = [];
+  bedArt: string[][] = [];
+  lightbulbArt: string[][] = [];
 
   async load(): Promise<void> {
     this.duckArt = await loadArt("/src/lib/assets/duck-small.txt");
     this.duckFlippedArt = await loadArt("/src/lib/assets/duck-small-flipped.txt");
     this.doorArt = await loadArt("/src/lib/assets/door.txt");
+    this.bedArt = await loadArt("/src/lib/assets/bed.txt");
+    this.lightbulbArt = await loadArt("/src/lib/assets/lightbulb.txt");
   }
 
   init(scenes: SceneManager): void {
     super.init(scenes);
 
     this.player = this.addEntity(new Player(
-      20,
+      45,
       config.dims.height - 10,
       this.duckArt,
       this.duckFlippedArt,
@@ -36,7 +40,7 @@ export class HomeScene extends Scene {
 
     this.addEntity(new Interactable(
       config.dims.width - 28,
-      config.dims.height - 24,
+      config.dims.height - 23,
       this.doorArt,
       config.colors.accent,
       this.player,
@@ -51,7 +55,7 @@ export class HomeScene extends Scene {
   }
 
   draw(state: State, renderer: Renderer): void {
-    super.draw(state, renderer, "/", config.colors.fg);
+    super.draw(state, renderer, "#", config.colors.fg);
 
     renderer.drawRoundedRect(
       10,
@@ -59,9 +63,29 @@ export class HomeScene extends Scene {
       renderer.width - 20,
       renderer.height - 30,
       8,
-      "#",
+      ".",
       config.colors.bg,
       1
+    );
+
+    renderer.drawArt(
+      18,
+      config.dims.height - 15 - this.bedArt.length + 1,
+      22,
+      7,
+      this.bedArt,
+      config.colors.accent,
+      2
+    );
+
+    renderer.drawArt(
+      config.dims.width / 2 - 6,
+      15,
+      12,
+      10,
+      this.lightbulbArt,
+      config.colors.accent,
+      2
     );
   }
 }
