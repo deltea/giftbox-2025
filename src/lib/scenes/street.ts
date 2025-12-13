@@ -68,7 +68,7 @@ export class StreetScene extends Scene {
   }
 
   draw(state: State, renderer: Renderer): void {
-    renderer.drawRect(0, 0, renderer.width, renderer.height, "/", config.colors.bg);
+    renderer.drawRect(0, 0, renderer.width, renderer.height, ".", config.colors.bg);
 
     renderer.drawArt(
       2,
