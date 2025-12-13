@@ -6,11 +6,6 @@ import type { SceneManager } from "$lib/scene-manager";
 import type { State } from "$lib/state";
 import { clamp, loadArt } from "$lib/utils";
 
-import duckPath from "$lib/assets/duck-small.txt";
-import duckFlippedPath from "$lib/assets/duck-small-flipped.txt";
-import housePath from "$lib/assets/mushroom-house.txt";
-import shopPath from "$lib/assets/shop.txt";
-
 export class StreetScene extends Scene {
   playerPos: { x: number; y: number } = { x: 0, y: 0 };
   playerMaxSpeed: number = 20;
@@ -25,11 +20,10 @@ export class StreetScene extends Scene {
   shopArt: string[][] = [];
 
   async load(): Promise<void> {
-    this.duckArt = await loadArt(duckPath);
-    this.duckFlippedArt = await loadArt(duckFlippedPath);
-    // this.houseArt = await loadArt("$lib/assets/mushroom-house.txt");
-    this.houseArt = await loadArt(housePath);
-    this.shopArt = await loadArt(shopPath);
+    this.duckArt = await loadArt("/src/lib/assets/duck-small.txt");
+    this.duckFlippedArt = await loadArt("/src/lib/assets/duck-small-flipped.txt");
+    this.houseArt = await loadArt("/src/lib/assets/mushroom-house.txt");
+    this.shopArt = await loadArt("/src/lib/assets/shop.txt");
   }
 
   init(): void {

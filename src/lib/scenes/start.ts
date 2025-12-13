@@ -6,8 +6,6 @@ import type { SceneManager } from "$lib/scene-manager";
 import type { State } from "$lib/state";
 import { loadArt } from "$lib/utils";
 
-import duckPath from "$lib/assets/duck-small.txt";
-
 export class StartScene extends Scene {
   isLeftPressed: boolean = false;
   isRightPressed: boolean = false;
@@ -15,7 +13,7 @@ export class StartScene extends Scene {
   duckArt: string[][] = [];
 
   async load(): Promise<void> {
-    this.duckArt = await loadArt(duckPath);
+    this.duckArt = await loadArt("/src/lib/assets/duck-small.txt");
   }
 
   init(): void {

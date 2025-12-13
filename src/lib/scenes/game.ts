@@ -6,8 +6,6 @@ import { Scene } from "$lib/scene";
 import { clamp, loadArt } from "$lib/utils";
 import { config } from "$lib/config";
 
-import clawArtPath from "$lib/assets/claw.txt";
-
 export class GameScene extends Scene {
   clawArt: string[][] = [];
 
@@ -15,7 +13,7 @@ export class GameScene extends Scene {
   clawSpeed: number = 25;
 
   async load(): Promise<void> {
-    this.clawArt = await loadArt(clawArtPath);
+    this.clawArt = await loadArt("/src/lib/assets/claw.txt");
   }
 
   init(): void {
