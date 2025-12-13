@@ -18,12 +18,14 @@ export class StreetScene extends Scene {
   duckFlippedArt: string[][] = [];
   houseArt: string[][] = [];
   shopArt: string[][] = [];
+  vendingMachineArt: string[][] = [];
 
   async load(): Promise<void> {
     this.duckArt = await loadArt("/src/lib/assets/duck-small.txt");
     this.duckFlippedArt = await loadArt("/src/lib/assets/duck-small-flipped.txt");
     this.houseArt = await loadArt("/src/lib/assets/mushroom-house.txt");
     this.shopArt = await loadArt("/src/lib/assets/shop.txt");
+    this.vendingMachineArt = await loadArt("/src/lib/assets/vending-machine.txt");
   }
 
   init(): void {
@@ -47,7 +49,9 @@ export class StreetScene extends Scene {
         this.playerVel.x = this.playerMaxSpeed;
       }
     } else {
-      this.playerVel.x *= 1 - this.playerDeceleration;
+      if (this.playerIsOnGround()) {
+        this.playerVel.x *= 1 - this.playerDeceleration;
+      }
     }
 
     this.playerVel.y += this.gravity * delta;
@@ -78,6 +82,14 @@ export class StreetScene extends Scene {
       40,
       21,
       this.shopArt,
+      config.colors.accent
+    );
+    renderer.drawArt(
+      config.dims.width / 2 - 9,
+      config.dims.height - 13,
+      18,
+      13,
+      this.vendingMachineArt,
       config.colors.accent
     );
     renderer.drawArt(

@@ -9,8 +9,10 @@ export const config: EngineConfig = {
   padding: 24,
   pixelRatio: 3,
   dims: {
-    width: Math.floor((window.innerWidth - 24 * 2) / (16 / 1.5)),
-    height: Math.floor((window.innerHeight - 24 * 2) / 16)
+    // width: Math.floor((window.innerWidth - 24 * 2) / (16 / 1.5)),
+    // height: Math.floor((window.innerHeight - 24 * 2) / 16)
+    width: 120,
+    height: 60
   },
   colors: {
     fg: "#eee0cb",
