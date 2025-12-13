@@ -11,6 +11,7 @@ export class Engine {
   state: State;
   animationId: number = 0;
   isRunning: boolean = false;
+  lastFrameTime: number = 0;
 
   constructor() {
     this.inputManager = new InputManager();
@@ -28,6 +29,15 @@ export class Engine {
   }
 
   loop(time: number): void {
+    if (this.lastFrameTime === 0) {
+      this.lastFrameTime = time;
+      this.state.deltaTime = 0;
+    } else {
+      const delta = time - this.lastFrameTime;
+      this.state.deltaTime = delta / 1000;
+      this.lastFrameTime = time;
+    }
+
     const activeScene = this.sceneManager.getCurrentScene();
     this.state.gameTime = time;
 
@@ -45,15 +55,18 @@ export class Engine {
 
   pause(): void {
     this.isRunning = false;
+    this.lastFrameTime = 0;
   }
 
   resume(): void {
     this.isRunning = true;
+    this.lastFrameTime = 0;
     this.animationId = requestAnimationFrame(time => this.loop(time));
   }
 
   destroy(): void {
     this.isRunning = false;
+    this.lastFrameTime = 0;
     if (this.animationId) {
       cancelAnimationFrame(this.animationId);
     }
