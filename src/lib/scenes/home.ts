@@ -1,4 +1,5 @@
 import { config } from "$lib/config";
+import { Interactable } from "$lib/entities/interactable";
 import { Player } from "$lib/entities/player";
 import type { InputManager } from "$lib/input-manager";
 import type { Renderer } from "$lib/renderer";
@@ -12,23 +13,36 @@ export class HomeScene extends Scene {
 
   duckArt: string[][] = [];
   duckFlippedArt: string[][] = [];
+  doorArt: string[][] = [];
 
   async load(): Promise<void> {
     this.duckArt = await loadArt("/src/lib/assets/duck-small.txt");
     this.duckFlippedArt = await loadArt("/src/lib/assets/duck-small-flipped.txt");
+    this.doorArt = await loadArt("/src/lib/assets/door.txt");
   }
 
   init(scenes: SceneManager): void {
     super.init(scenes);
 
     this.player = this.addEntity(new Player(
-      8,
+      20,
       config.dims.height - 10,
       this.duckArt,
       this.duckFlippedArt,
       config.colors.fg,
       config.dims.height - 15 - this.duckArt.length + 1,
       { min: 12, max: config.dims.width - 12 }
+    ));
+
+    this.addEntity(new Interactable(
+      config.dims.width - 28,
+      config.dims.height - 24,
+      this.doorArt,
+      config.colors.accent,
+      this.player,
+      "↵ go outside",
+      () => scenes.changeScene("street"),
+      2
     ));
   }
 
@@ -48,6 +62,6 @@ export class HomeScene extends Scene {
       "#",
       config.colors.bg,
       1
-    )
+    );
   }
 }

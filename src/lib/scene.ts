@@ -27,6 +27,10 @@ export abstract class Scene {
     }
   };
 
+  destroy(): void {
+    this.entities = [];
+  }
+
   addEntity<T extends Entity>(entity: T): T {
     this.entities.push(entity);
     console.log(this.entities.slice());

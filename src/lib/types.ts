@@ -13,6 +13,7 @@ export interface Scene {
   init(scenes: SceneManager): void;
   update(state: State, input: InputManager, scenes: SceneManager): void;
   draw(state: State, renderer: Renderer): void;
+  destroy(): void;
 }
 
 export interface EngineConfig {

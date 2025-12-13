@@ -10,8 +10,8 @@ export class Interactable extends Entity {
   text: string = "";
   callback?: () => void;
 
-  constructor(x: number, y: number, art: string[][], color: string, target: Entity, text: string = "", callback?: () => void) {
-    super(x, y, art, color);
+  constructor(x: number, y: number, art: string[][], color: string, target: Entity, text: string = "", callback?: () => void, layer: number = 0) {
+    super(x, y, art, color, layer);
     this.target = target;
     this.text = text;
     this.callback = callback;

@@ -28,6 +28,8 @@ export class SceneManager {
 
     await scene.load();
 
+    this.getCurrentScene()?.destroy();
+
     this.activeSceneId = sceneId;
     this.transitionDuration = duration;
     this.transitionProgress = 0;

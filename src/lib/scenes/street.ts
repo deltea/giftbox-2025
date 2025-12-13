@@ -29,8 +29,8 @@ export class StreetScene extends Scene {
   init(scenes: SceneManager): void {
     super.init(scenes);
     this.player = this.addEntity(new Player(
-      config.dims.width / 2,
-      config.dims.height - 8,
+      20,
+      config.dims.height - 4,
       this.duckArt,
       this.duckFlippedArt,
       config.colors.fg
