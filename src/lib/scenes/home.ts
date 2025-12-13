@@ -45,7 +45,8 @@ export class HomeScene extends Scene {
       renderer.height - 12,
       8,
       "#",
-      config.colors.bg
+      config.colors.bg,
+      1
     )
   }
 }

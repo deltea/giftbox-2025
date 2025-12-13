@@ -27,7 +27,8 @@ export class Entity {
       this.artDims.w,
       this.artDims.h,
       this.art,
-      this.color
+      this.color,
+      this.layer
     );
   }
 }

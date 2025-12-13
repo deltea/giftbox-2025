@@ -49,20 +49,23 @@ export class Interactable extends Entity {
       const boxWidth = this.text.length + 6;
       const boxHeight = 5;
       const yOffset = 2;
+      const textLayer = this.layer + 1;
       renderer.drawRectBorderFancy(
         this.pos.x + this.artDims.w / 2 - boxWidth / 2,
         this.pos.y - boxHeight - yOffset,
         this.text.length + 6,
         boxHeight,
         // "=",
-        config.colors.fg
+        config.colors.fg,
+        textLayer
       );
       renderer.drawText(
         this.pos.x + this.artDims.w / 2 - boxWidth / 2 + 3,
         this.pos.y - boxHeight - yOffset + boxHeight / 2,
         this.text,
         config.colors.fg,
-        false
+        false,
+        textLayer
       );
     }
   }

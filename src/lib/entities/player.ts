@@ -49,7 +49,8 @@ export class Player extends Entity {
       this.artDims.w,
       this.artDims.h,
       artToDraw,
-      this.color
+      this.color,
+      this.layer
     );
   }
 
