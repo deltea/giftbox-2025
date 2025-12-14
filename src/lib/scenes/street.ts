@@ -42,7 +42,7 @@ export class StreetScene extends Scene {
       this.houseArt,
       config.colors.accent,
       this.player,
-      "↵ enter house",
+      "⬆ enter house",
       () => scenes.changeScene("home")
     ));
     this.addEntity(new Interactable(
@@ -51,7 +51,7 @@ export class StreetScene extends Scene {
       this.shopArt,
       config.colors.accent,
       this.player,
-      "↵ enter store",
+      "⬆ enter store",
       () => scenes.changeScene("home")
     ));
     this.addEntity(new Interactable(
@@ -60,7 +60,7 @@ export class StreetScene extends Scene {
       this.vendingMachineArt,
       config.colors.accent,
       this.player,
-      "↵ use vending machine",
+      "⬆ use vending machine",
       () => scenes.changeScene("home")
     ));
   }
