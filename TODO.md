@@ -1,1 +1,2 @@
-- add the mob psycho poster
+- add scene spawn points with game state
+- [x] add the mob psycho poster
