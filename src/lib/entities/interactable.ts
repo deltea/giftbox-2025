@@ -25,7 +25,7 @@ export class Interactable extends Entity {
       this.onDisinteract();
     }
 
-    if (this.isActive && input.isKeyPressed("Enter")) {
+    if (this.isActive && input.isKeyPressed("ArrowUp")) {
       if (this.callback) {
         this.callback();
       }
@@ -48,14 +48,13 @@ export class Interactable extends Entity {
     if (this.isActive && this.text.length > 0) {
       const boxWidth = this.text.length + 6;
       const boxHeight = 5;
-      const yOffset = 2;
+      const yOffset = 1;
       const textLayer = this.layer + 1;
       renderer.drawRectBorderFancy(
         this.pos.x + this.artDims.w / 2 - boxWidth / 2,
         this.pos.y - boxHeight - yOffset,
         this.text.length + 6,
         boxHeight,
-        // "=",
         config.colors.fg,
         textLayer
       );
@@ -73,9 +72,9 @@ export class Interactable extends Entity {
   isTouching(entity: Entity): boolean {
     return !(
       this.pos.x + this.artDims.w < entity.pos.x ||
-      this.pos.x > entity.pos.x + entity.artDims.w ||
+      this.pos.x > entity.pos.x + entity.artDims.w/* ||
       this.pos.y + this.artDims.h < entity.pos.y ||
-      this.pos.y > entity.pos.y + entity.artDims.h
+      this.pos.y > entity.pos.y + entity.artDims.h*/
     );
   }
 }

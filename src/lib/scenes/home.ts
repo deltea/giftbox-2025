@@ -10,12 +10,15 @@ import { loadArt } from "$lib/utils";
 
 export class HomeScene extends Scene {
   player: Player | null = null;
+  posterOpen = false;
 
   duckArt: string[][] = [];
   duckFlippedArt: string[][] = [];
   doorArt: string[][] = [];
   bedArt: string[][] = [];
   lightbulbArt: string[][] = [];
+  posterArt: string[][] = [];
+  mobPsychoArt: string[][] = [];
 
   async load(): Promise<void> {
     this.duckArt = await loadArt("/src/lib/assets/duck-small.txt");
@@ -23,6 +26,8 @@ export class HomeScene extends Scene {
     this.doorArt = await loadArt("/src/lib/assets/door.txt");
     this.bedArt = await loadArt("/src/lib/assets/bed.txt");
     this.lightbulbArt = await loadArt("/src/lib/assets/lightbulb.txt");
+    this.posterArt = await loadArt("/src/lib/assets/poster.txt");
+    this.mobPsychoArt = await loadArt("/src/lib/assets/mob-psycho.txt");
   }
 
   init(scenes: SceneManager): void {
@@ -48,44 +53,40 @@ export class HomeScene extends Scene {
       () => scenes.changeScene("street"),
       2
     ));
+
+    this.addEntity(new Interactable(
+      36,
+      28,
+      this.posterArt,
+      config.colors.accent,
+      this.player,
+      "⬆ look at poster",
+      () => this.posterOpen = true,
+      2
+    ));
   }
 
   update(state: State, input: InputManager, scenes: SceneManager): void {
     super.update(state, input, scenes);
+
+    if (input.isKeyPressed("Escape")) {
+      this.posterOpen = false;
+    }
   }
 
   draw(state: State, renderer: Renderer): void {
     super.draw(state, renderer, "#", config.colors.fg);
 
-    renderer.drawRoundedRect(
-      10,
-      15,
-      renderer.width - 20,
-      renderer.height - 30,
-      8,
-      ".",
-      config.colors.bg,
-      1
-    );
+    renderer.drawRoundedRect(10, 15, renderer.width - 20, renderer.height - 30, 8, ".", config.colors.bg, 1);
+    renderer.drawArt(18, config.dims.height - 15 - this.bedArt.length + 1, 22, 7, this.bedArt, config.colors.accent, 2);
+    renderer.drawArt(renderer.width / 2 - 6, 15, 12, 10, this.lightbulbArt, config.colors.accent, 2);
 
-    renderer.drawArt(
-      18,
-      config.dims.height - 15 - this.bedArt.length + 1,
-      22,
-      7,
-      this.bedArt,
-      config.colors.accent,
-      2
-    );
-
-    renderer.drawArt(
-      config.dims.width / 2 - 6,
-      15,
-      12,
-      10,
-      this.lightbulbArt,
-      config.colors.accent,
-      2
-    );
+    if (this.posterOpen) {
+      renderer.drawRect(renderer.width / 2 - 49 / 2, renderer.height / 2 - 43 / 2, 49, 43, ":", config.colors.bg, 18);
+      renderer.drawRectBorderFancy(renderer.width / 2 - 49 / 2, renderer.height / 2 - 43 / 2, 49, 43, config.colors.accent, 19);
+      renderer.drawArt(renderer.width / 2 - 49 / 2 + 3, renderer.height / 2 - 43 / 2 + 3, 43, 37, this.mobPsychoArt, config.colors.accent, 20)
+      renderer.drawRect(renderer.width / 2 - 8, renderer.height - 7, 16, 3, " ", config.colors.bg);
+      renderer.drawText(renderer.width / 2, renderer.height - 6, "esc to close", config.colors.accent);
+    }
   }
 }
