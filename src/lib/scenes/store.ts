@@ -1,7 +1,6 @@
 import { config } from "$lib/config";
 import { Interactable } from "$lib/entities/interactable";
 import { Player } from "$lib/entities/player";
-import type { Entity } from "$lib/entity";
 import type { InputManager } from "$lib/input-manager";
 import type { Renderer } from "$lib/renderer";
 import { Scene } from "$lib/scene";
@@ -9,59 +8,39 @@ import type { SceneManager } from "$lib/scene-manager";
 import type { State } from "$lib/state";
 import { loadArt } from "$lib/utils";
 
-export class StreetScene extends Scene {
+export class StoreScene extends Scene {
   player: Player | null = null;
 
   duckArt: string[][] = [];
   duckFlippedArt: string[][] = [];
-  houseArt: string[][] = [];
-  shopArt: string[][] = [];
-  vendingMachineArt: string[][] = [];
+  doorArt: string[][] = [];
 
   async load(): Promise<void> {
     this.duckArt = await loadArt("/src/lib/assets/duck-small.txt");
     this.duckFlippedArt = await loadArt("/src/lib/assets/duck-small-flipped.txt");
-    this.houseArt = await loadArt("/src/lib/assets/mushroom-house.txt");
-    this.shopArt = await loadArt("/src/lib/assets/shop.txt");
-    this.vendingMachineArt = await loadArt("/src/lib/assets/vending-machine.txt");
+    this.doorArt = await loadArt("/src/lib/assets/door.txt");
   }
 
   init(scenes: SceneManager): void {
     super.init(scenes);
+
     this.player = this.addEntity(new Player(
-      20,
-      config.dims.height - 4,
+      56,
+      config.dims.height - 10,
       this.duckArt,
       this.duckFlippedArt,
       config.colors.fg
     ));
 
     this.addEntity(new Interactable(
-      2,
-      config.dims.height - 24,
-      this.houseArt,
+      28,
+      config.dims.height - 8,
+      this.doorArt,
       config.colors.accent,
       this.player,
-      "⬆ enter house",
-      () => scenes.changeScene("home")
-    ));
-    this.addEntity(new Interactable(
-      config.dims.width - 43,
-      config.dims.height - 20,
-      this.shopArt,
-      config.colors.accent,
-      this.player,
-      "⬆ enter store",
-      () => scenes.changeScene("store")
-    ));
-    this.addEntity(new Interactable(
-      config.dims.width / 2 - 9,
-      config.dims.height - 13,
-      this.vendingMachineArt,
-      config.colors.accent,
-      this.player,
-      "⬆ use vending machine",
-      () => scenes.changeScene("home")
+      "⬆ go outside",
+      () => scenes.changeScene("street"),
+      2
     ));
   }
 

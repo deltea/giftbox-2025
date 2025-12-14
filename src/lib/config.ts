@@ -1,7 +1,8 @@
+import type { EngineConfig } from "./types";
 import { HomeScene } from "./scenes/home";
 import { StartScene } from "./scenes/start";
+import { StoreScene } from "./scenes/store";
 import { StreetScene } from "./scenes/street";
-import type { EngineConfig } from "./types";
 
 export const config: EngineConfig = {
   containerId: "container",
@@ -24,6 +25,7 @@ export const config: EngineConfig = {
   scenes: {
     "start": new StartScene,
     "street": new StreetScene,
-    "home": new HomeScene
+    "home": new HomeScene,
+    "store": new StoreScene
   }
 }
