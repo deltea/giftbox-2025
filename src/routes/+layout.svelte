@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>The Gacha Machine</title>
+	<title>little ducky</title>
 </svelte:head>
 
 {@render children()}
