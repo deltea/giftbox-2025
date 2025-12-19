@@ -1,2 +1,3 @@
-- add scene spawn points with game state
+- [ ] add clouds
+- [ ] add scene spawn points with game state
 - [x] add the mob psycho poster

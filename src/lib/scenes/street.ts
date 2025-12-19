@@ -1,4 +1,5 @@
 import { config } from "$lib/config";
+import { Cloud } from "$lib/entities/cloud";
 import { Interactable } from "$lib/entities/interactable";
 import { Player } from "$lib/entities/player";
 import type { Entity } from "$lib/entity";
@@ -17,6 +18,7 @@ export class StreetScene extends Scene {
   houseArt: string[][] = [];
   shopArt: string[][] = [];
   vendingMachineArt: string[][] = [];
+  cloudArt: string[][] = [];
 
   async load(): Promise<void> {
     this.duckArt = await loadArt("/src/lib/assets/duck-small.txt");
@@ -24,6 +26,7 @@ export class StreetScene extends Scene {
     this.houseArt = await loadArt("/src/lib/assets/mushroom-house.txt");
     this.shopArt = await loadArt("/src/lib/assets/shop.txt");
     this.vendingMachineArt = await loadArt("/src/lib/assets/vending-machine.txt");
+    this.cloudArt = await loadArt("/src/lib/assets/cloud.txt");
   }
 
   init(scenes: SceneManager): void {
@@ -62,6 +65,20 @@ export class StreetScene extends Scene {
       this.player,
       "⬆ use vending machine",
       () => scenes.changeScene("home")
+    ));
+    this.addEntity(new Cloud(
+      50,
+      10,
+      this.cloudArt,
+      config.colors.accent,
+      10
+    ));
+    this.addEntity(new Cloud(
+      30,
+      22,
+      this.cloudArt,
+      config.colors.accent,
+      -8
     ));
   }
 
