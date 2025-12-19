@@ -4,6 +4,7 @@ import type { Renderer } from "$lib/renderer";
 import { Scene } from "$lib/scene";
 import type { SceneManager } from "$lib/scene-manager";
 import type { State } from "$lib/state";
+import { showBlahaj } from "$lib/stores";
 import { loadArt } from "$lib/utils";
 
 export class StartScene extends Scene {
@@ -18,6 +19,7 @@ export class StartScene extends Scene {
 
   init(): void {
     console.log("scene initialized");
+    showBlahaj.set(false);
   }
 
   update(state: State, input: InputManager, scenes: SceneManager): void {

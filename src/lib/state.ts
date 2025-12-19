@@ -6,4 +6,5 @@ export class State {
 
   hasKey: boolean = false;
   hasMission: boolean = false;
+  isEnd: boolean = false;
 }

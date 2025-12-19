@@ -23,6 +23,8 @@ export class Player extends Entity {
   }
 
   update(state: State, input: InputManager): void {
+    if (state.isEnd) return;
+
     this.velocity.y += this.gravity * state.deltaTime;
     this.pos.y += this.velocity.y * state.deltaTime;
 

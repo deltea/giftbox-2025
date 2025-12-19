@@ -6,6 +6,7 @@ import type { Renderer } from "$lib/renderer";
 import { Scene } from "$lib/scene";
 import type { SceneManager } from "$lib/scene-manager";
 import type { State } from "$lib/state";
+import { showBlahaj } from "$lib/stores";
 import { clamp, getFlipped, loadArt } from "$lib/utils";
 
 export class StoreScene extends Scene {
@@ -69,7 +70,11 @@ export class StoreScene extends Scene {
         if (state.hasKey) {
           state.hasKey = false;
           state.hasMission = false;
-          console.log("mission complete!");
+          state.isEnd = true;
+          showBlahaj.set(true);
+          setTimeout(() => {
+            scenes.changeScene("start", state);
+          }, 3000);
         }
       },
       2,
@@ -100,7 +105,9 @@ export class StoreScene extends Scene {
     renderer.drawRect(10, 20, 15, 24, ".", config.colors.bg, 10);
     renderer.drawRect(renderer.width - 25, 20, 15, 24, ".", config.colors.bg, 10);
 
-    renderer.drawArt(this.sharkX, this.sharkY, 78, 15, this.sharkDir < 0 ? this.sharkArt : this.sharkFlippedArt, config.colors.fg);
+    if (!state.isEnd) {
+      renderer.drawArt(this.sharkX, this.sharkY, 78, 15, this.sharkDir < 0 ? this.sharkArt : this.sharkFlippedArt, config.colors.fg);
+    }
 
     renderer.drawText(renderer.width / 2, 46, "THE SHARK", config.colors.accent);
     renderer.drawRectBorder(renderer.width / 2 - 6, 46 - 1, 13, 3, "*", config.colors.accent);
