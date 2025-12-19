@@ -14,7 +14,7 @@ export class StartScene extends Scene {
   duckArt: string[][] = [];
 
   async load(): Promise<void> {
-    this.duckArt = await loadArt("/src/lib/assets/duck-small.txt");
+    this.duckArt = await loadArt("/assets/duck-small.txt");
   }
 
   init(): void {
@@ -28,7 +28,7 @@ export class StartScene extends Scene {
 
     if (this.isLeftPressed && this.isRightPressed) {
       state.spawnPoint = { x: 56, y: config.dims.height - 10 };
-      scenes.changeScene("store", state);
+      scenes.changeScene("home", state);
     }
   }
 

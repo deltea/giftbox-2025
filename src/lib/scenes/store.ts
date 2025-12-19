@@ -26,13 +26,13 @@ export class StoreScene extends Scene {
   sharkY: number = 24;
 
   async load(): Promise<void> {
-    this.duckArt = await loadArt("/src/lib/assets/duck-small.txt");
-    this.duckFlippedArt = await loadArt("/src/lib/assets/duck-small-flipped.txt");
-    this.doorArt = await loadArt("/src/lib/assets/door.txt");
-    this.aquariumArt = await loadArt("/src/lib/assets/aquarium.txt");
-    this.sharkArt = await loadArt("/src/lib/assets/shark.txt");
+    this.duckArt = await loadArt("/assets/duck-small.txt");
+    this.duckFlippedArt = await loadArt("/assets/duck-small-flipped.txt");
+    this.doorArt = await loadArt("/assets/door.txt");
+    this.aquariumArt = await loadArt("/assets/aquarium.txt");
+    this.sharkArt = await loadArt("/assets/shark.txt");
     this.sharkFlippedArt = getFlipped(this.sharkArt);
-    this.kioskArt = await loadArt("/src/lib/assets/kiosk.txt");
+    this.kioskArt = await loadArt("/assets/kiosk.txt");
   }
 
   init(scenes: SceneManager, state: State): void {

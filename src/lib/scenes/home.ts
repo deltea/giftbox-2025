@@ -22,14 +22,14 @@ export class HomeScene extends Scene {
   linkClickArt: string[][] = [];
 
   async load(): Promise<void> {
-    this.duckArt = await loadArt("/src/lib/assets/duck-small.txt");
-    this.duckFlippedArt = await loadArt("/src/lib/assets/duck-small-flipped.txt");
-    this.doorArt = await loadArt("/src/lib/assets/door.txt");
-    this.bedArt = await loadArt("/src/lib/assets/bed.txt");
-    this.lightbulbArt = await loadArt("/src/lib/assets/lightbulb.txt");
-    this.posterArt = await loadArt("/src/lib/assets/poster.txt");
-    this.mobPsychoArt = await loadArt("/src/lib/assets/mob-psycho.txt");
-    this.linkClickArt = await loadArt("/src/lib/assets/link-click.txt");
+    this.duckArt = await loadArt("/assets/duck-small.txt");
+    this.duckFlippedArt = await loadArt("/assets/duck-small-flipped.txt");
+    this.doorArt = await loadArt("/assets/door.txt");
+    this.bedArt = await loadArt("/assets/bed.txt");
+    this.lightbulbArt = await loadArt("/assets/lightbulb.txt");
+    this.posterArt = await loadArt("/assets/poster.txt");
+    this.mobPsychoArt = await loadArt("/assets/mob-psycho.txt");
+    this.linkClickArt = await loadArt("/assets/link-click.txt");
   }
 
   init(scenes: SceneManager, state: State): void {

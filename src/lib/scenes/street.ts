@@ -24,13 +24,13 @@ export class StreetScene extends Scene {
   isShowingDrPepper: boolean = false;
 
   async load(): Promise<void> {
-    this.duckArt = await loadArt("/src/lib/assets/duck-small.txt");
-    this.duckFlippedArt = await loadArt("/src/lib/assets/duck-small-flipped.txt");
-    this.houseArt = await loadArt("/src/lib/assets/mushroom-house.txt");
-    this.shopArt = await loadArt("/src/lib/assets/shop.txt");
-    this.vendingMachineArt = await loadArt("/src/lib/assets/vending-machine.txt");
-    this.cloudArt = await loadArt("/src/lib/assets/cloud.txt");
-    this.drPepperArt = await loadArt("/src/lib/assets/dr-pepper.txt");
+    this.duckArt = await loadArt("/assets/duck-small.txt");
+    this.duckFlippedArt = await loadArt("/assets/duck-small-flipped.txt");
+    this.houseArt = await loadArt("/assets/mushroom-house.txt");
+    this.shopArt = await loadArt("/assets/shop.txt");
+    this.vendingMachineArt = await loadArt("/assets/vending-machine.txt");
+    this.cloudArt = await loadArt("/assets/cloud.txt");
+    this.drPepperArt = await loadArt("/assets/dr-pepper.txt");
   }
 
   init(scenes: SceneManager, state: State): void {
