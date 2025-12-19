@@ -19,6 +19,9 @@ export class StreetScene extends Scene {
   shopArt: string[][] = [];
   vendingMachineArt: string[][] = [];
   cloudArt: string[][] = [];
+  drPepperArt: string[][] = [];
+
+  isShowingDrPepper: boolean = false;
 
   async load(): Promise<void> {
     this.duckArt = await loadArt("/src/lib/assets/duck-small.txt");
@@ -27,6 +30,7 @@ export class StreetScene extends Scene {
     this.shopArt = await loadArt("/src/lib/assets/shop.txt");
     this.vendingMachineArt = await loadArt("/src/lib/assets/vending-machine.txt");
     this.cloudArt = await loadArt("/src/lib/assets/cloud.txt");
+    this.drPepperArt = await loadArt("/src/lib/assets/dr-pepper.txt");
   }
 
   init(scenes: SceneManager, state: State): void {
@@ -69,8 +73,13 @@ export class StreetScene extends Scene {
       this.vendingMachineArt,
       config.colors.accent,
       this.player,
-      "⬆ use vending machine",
-      () => scenes.changeScene("home", state)
+      state.hasMission ? "⬆ buy a can of dr pepper" : "it's a vending machine",
+      () => {
+        if (state.hasMission) {
+          state.hasKey = true;
+          this.isShowingDrPepper = true;
+        }
+      }
     ));
     this.addEntity(new Cloud(
       50,
@@ -90,9 +99,30 @@ export class StreetScene extends Scene {
 
   update(state: State, input: InputManager, scenes: SceneManager): void {
     super.update(state, input, scenes);
+
+    if (input.isKeyPressed("Escape")) {
+      this.isShowingDrPepper = false;
+    }
   }
 
   draw(state: State, renderer: Renderer): void {
     super.draw(state, renderer);
+
+    if (this.isShowingDrPepper) {
+      renderer.drawRect(renderer.width / 2 - 45, renderer.height / 2 - 25, 90, 50, "-", config.colors.bg, 9);
+      renderer.drawRectBorderFancy(renderer.width / 2 - 45, renderer.height / 2 - 25, 90, 50, config.colors.accent, 10);
+      renderer.drawText(renderer.width / 2, 10, "you got the dr. pepper!!!!", config.colors.fg, true, 10);
+      renderer.drawArt(
+        renderer.width / 2 - 7,
+        renderer.height / 2 - 6,
+        14,
+        13,
+        this.drPepperArt,
+        config.colors.fg,
+        10
+      );
+      renderer.drawRect(renderer.width / 2 - 8, renderer.height - 10, 16, 3, "+", config.colors.accent, 10);
+      renderer.drawText(renderer.width / 2, renderer.height - 9, "esc to close", config.colors.fg, true, 10);
+    }
   }
 }

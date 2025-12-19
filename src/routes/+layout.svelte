@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>little ducky</title>
+	<title>little ducky & the shark</title>
 </svelte:head>
 
 {@render children()}

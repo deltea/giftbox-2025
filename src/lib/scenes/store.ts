@@ -17,6 +17,7 @@ export class StoreScene extends Scene {
   aquariumArt: string[][] = [];
   sharkArt: string[][] = [];
   sharkFlippedArt: string[][] = [];
+  kioskArt: string[][] = [];
 
   sharkSpeed: number = 5;
   sharkDir: number = 1;
@@ -30,6 +31,7 @@ export class StoreScene extends Scene {
     this.aquariumArt = await loadArt("/src/lib/assets/aquarium.txt");
     this.sharkArt = await loadArt("/src/lib/assets/shark.txt");
     this.sharkFlippedArt = getFlipped(this.sharkArt);
+    this.kioskArt = await loadArt("/src/lib/assets/kiosk.txt");
   }
 
   init(scenes: SceneManager, state: State): void {
@@ -55,6 +57,27 @@ export class StoreScene extends Scene {
         scenes.changeScene("street", state)
       },
       2
+    ));
+    this.addEntity(new Interactable(
+      config.dims.width - 28,
+      config.dims.height - 4,
+      this.kioskArt,
+      config.colors.fg,
+      this.player,
+      state.hasKey ? "⬆ give it to the shark" : "the shark is thirsty",
+      () => {
+        if (state.hasKey) {
+          state.hasKey = false;
+          state.hasMission = false;
+          console.log("mission complete!");
+        }
+      },
+      2,
+      () => {
+        if (!state.hasKey) {
+          state.hasMission = true;
+        }
+      }
     ));
   }
 

@@ -9,12 +9,14 @@ export class Interactable extends Entity {
   isActive: boolean = true;
   text: string = "";
   callback?: () => void;
+  interactCallback?: () => void;
 
-  constructor(x: number, y: number, art: string[][], color: string, target: Entity, text: string = "", callback?: () => void, layer: number = 0) {
+  constructor(x: number, y: number, art: string[][], color: string, target: Entity, text: string = "", callback?: () => void, layer: number = 0, interactCallback?: () => void) {
     super(x, y, art, color, layer);
     this.target = target;
     this.text = text;
     this.callback = callback;
+    this.interactCallback = interactCallback;
   }
 
   update(state: State, input: InputManager): void {
@@ -34,6 +36,9 @@ export class Interactable extends Entity {
 
   onInteract(): void {
     this.isActive = true;
+    if (this.interactCallback) {
+      this.interactCallback();
+    }
     console.log("on interacted!");
   }
 

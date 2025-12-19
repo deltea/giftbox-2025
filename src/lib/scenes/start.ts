@@ -54,7 +54,7 @@ export class StartScene extends Scene {
 
     renderer.drawRoundedRect(centerX - 30, centerY - 12, 60, 24, 1, ".", config.colors.bg);
 
-    renderer.drawText(centerX, centerY - 7, "little ducky", config.colors.fg);
+    renderer.drawText(centerX, centerY - 7, "little ducky & the shark", config.colors.fg);
     renderer.drawText(centerX, centerY - 4, "a small experiment made for hack club giftbox", config.colors.accent);
     renderer.drawText(centerX, centerY - 3, "(for maddie!)", config.colors.accent);
 
