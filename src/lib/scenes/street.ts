@@ -29,11 +29,11 @@ export class StreetScene extends Scene {
     this.cloudArt = await loadArt("/src/lib/assets/cloud.txt");
   }
 
-  init(scenes: SceneManager): void {
-    super.init(scenes);
+  init(scenes: SceneManager, state: State): void {
+    super.init(scenes, state);
     this.player = this.addEntity(new Player(
-      20,
-      config.dims.height - 4,
+      state.spawnPoint.x,
+      state.spawnPoint.y,
       this.duckArt,
       this.duckFlippedArt,
       config.colors.fg
@@ -46,7 +46,10 @@ export class StreetScene extends Scene {
       config.colors.accent,
       this.player,
       "⬆ enter house",
-      () => scenes.changeScene("home")
+      () => {
+        state.spawnPoint = { x: 56, y: config.dims.height - 10 };
+        scenes.changeScene("home", state);
+      }
     ));
     this.addEntity(new Interactable(
       config.dims.width - 43,
@@ -55,7 +58,7 @@ export class StreetScene extends Scene {
       config.colors.accent,
       this.player,
       "⬆ enter store",
-      () => scenes.changeScene("store")
+      () => scenes.changeScene("store", state)
     ));
     this.addEntity(new Interactable(
       config.dims.width / 2 - 9,
@@ -64,7 +67,7 @@ export class StreetScene extends Scene {
       config.colors.accent,
       this.player,
       "⬆ use vending machine",
-      () => scenes.changeScene("home")
+      () => scenes.changeScene("home", state)
     ));
     this.addEntity(new Cloud(
       50,

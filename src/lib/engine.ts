@@ -26,7 +26,7 @@ export class Engine {
     this.isRunning = true;
     this.animationId = requestAnimationFrame(time => this.loop(time));
 
-    this.sceneManager.changeScene(config.startScene);
+    this.sceneManager.changeScene(config.startScene, this.state);
   }
 
   loop(time: number): void {

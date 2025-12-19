@@ -21,8 +21,8 @@ export class StoreScene extends Scene {
     this.doorArt = await loadArt("/src/lib/assets/door.txt");
   }
 
-  init(scenes: SceneManager): void {
-    super.init(scenes);
+  init(scenes: SceneManager, state: State): void {
+    super.init(scenes, state);
 
     this.player = this.addEntity(new Player(
       56,
@@ -39,7 +39,10 @@ export class StoreScene extends Scene {
       config.colors.accent,
       this.player,
       "⬆ go outside",
-      () => scenes.changeScene("street"),
+      () => {
+        state.spawnPoint = { x: config.dims.width - 36, y: config.dims.height - 4 };
+        scenes.changeScene("street", state)
+      },
       2
     ));
   }

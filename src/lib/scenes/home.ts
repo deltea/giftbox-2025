@@ -32,12 +32,12 @@ export class HomeScene extends Scene {
     this.linkClickArt = await loadArt("/src/lib/assets/link-click.txt");
   }
 
-  init(scenes: SceneManager): void {
-    super.init(scenes);
+  init(scenes: SceneManager, state: State): void {
+    super.init(scenes, state);
 
     this.player = this.addEntity(new Player(
-      56,
-      config.dims.height - 10,
+      state.spawnPoint.x,
+      state.spawnPoint.y,
       this.duckArt,
       this.duckFlippedArt,
       config.colors.fg,
@@ -52,7 +52,10 @@ export class HomeScene extends Scene {
       config.colors.accent,
       this.player,
       "⬆ go outside",
-      () => scenes.changeScene("street"),
+      () => {
+        state.spawnPoint = { x: 20, y: config.dims.height - 4 };
+        scenes.changeScene("street", state);
+      },
       2
     ));
 

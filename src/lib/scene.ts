@@ -9,7 +9,7 @@ export abstract class Scene {
   entities: Entity[] = [];
   abstract load(): Promise<void>;
 
-  init(scenes: SceneManager): void {};
+  init(scenes: SceneManager, state: State): void {};
 
   update(state: State, input: InputManager, scenes: SceneManager): void {
     for (const entity of this.entities) {

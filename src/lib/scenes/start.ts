@@ -25,7 +25,8 @@ export class StartScene extends Scene {
     this.isRightPressed = input.isKeyPressed("ArrowRight");
 
     if (this.isLeftPressed && this.isRightPressed) {
-      scenes.changeScene("home");
+      state.spawnPoint = { x: 56, y: config.dims.height - 10 };
+      scenes.changeScene("home", state);
     }
   }
 

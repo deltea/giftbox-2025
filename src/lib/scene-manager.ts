@@ -1,10 +1,9 @@
 import { config } from "./config";
+import type { State } from "./state";
 import type { Scene } from "./types";
 
 export class SceneManager {
   activeSceneId: string | null = null;
-  transitionDuration: number = 0;
-  transitionProgress: number = 0;
   isTransitioning: boolean = false;
 
   getScene(id: string): Scene | undefined {
@@ -16,7 +15,7 @@ export class SceneManager {
     return config.scenes[this.activeSceneId];
   }
 
-  async changeScene(sceneId: string, duration: number = 0): Promise<void> {
+  async changeScene(sceneId: string, state: State): Promise<void> {
     if (this.isTransitioning) return;
     this.isTransitioning = true;
 
@@ -31,11 +30,8 @@ export class SceneManager {
     this.getCurrentScene()?.destroy();
 
     this.activeSceneId = sceneId;
-    this.transitionDuration = duration;
-    this.transitionProgress = 0;
-    this.isTransitioning = duration > 0;
 
-    scene.init(this);
+    scene.init(this, state);
 
     this.isTransitioning = false;
   }
