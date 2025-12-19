@@ -26,7 +26,7 @@ export class StartScene extends Scene {
 
     if (this.isLeftPressed && this.isRightPressed) {
       state.spawnPoint = { x: 56, y: config.dims.height - 10 };
-      scenes.changeScene("home", state);
+      scenes.changeScene("store", state);
     }
   }
 

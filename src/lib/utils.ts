@@ -18,3 +18,37 @@ export function calculateArtDims(art: string[][]): { w: number; h: number } {
   const w = art.reduce((maxWidth, line) => Math.max(maxWidth, line.length), 0);
   return { w, h };
 }
+
+// flip ascii art horizontally, flipping characters as needed
+export function getFlipped(art: string[][]): string[][] {
+  const flipMap: Record<string, string> = {
+    "/": "\\",
+    "\\": "/",
+    "(": ")",
+    ")": "(",
+    "{": "}",
+    "}": "{",
+    "[": "]",
+    "]": "[",
+    "<": ">",
+    ">": "<",
+  };
+
+  const maxWidth = Math.max(...art.map(line => line.length));
+
+  const flippedArt: string[][] = art.map(line => {
+    const paddedLine = [...line];
+    while (paddedLine.length < maxWidth) {
+      paddedLine.push(" ");
+    }
+
+    const flippedLine: string[] = [];
+    for (let i = paddedLine.length - 1; i >= 0; i--) {
+      const char = paddedLine[i];
+      flippedLine.push(flipMap[char] || char);
+    }
+    return flippedLine;
+  });
+
+  return flippedArt;
+}

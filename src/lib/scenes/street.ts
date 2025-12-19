@@ -57,8 +57,11 @@ export class StreetScene extends Scene {
       this.shopArt,
       config.colors.accent,
       this.player,
-      "⬆ enter store",
-      () => scenes.changeScene("store", state)
+      "⬆ enter aquarium",
+      () => {
+        state.spawnPoint = { x: 20, y: config.dims.height - 4 };
+        scenes.changeScene("store", state)
+      }
     ));
     this.addEntity(new Interactable(
       config.dims.width / 2 - 9,
